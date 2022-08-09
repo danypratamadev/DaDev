@@ -1,4 +1,12 @@
+import 'package:dadev/const/ccolor.dart';
+import 'package:dadev/const/cfont.dart';
+import 'package:dadev/const/cvariableapp.dart';
+import 'package:dadev/pages/web/dadev/whome.dart';
+import 'package:dadev/providers/mprovider.dart';
+import 'package:dadev/providers/wprovider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 void main() {
   runApp(const MyApp());
@@ -6,110 +14,140 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<MobileProvider>(
+          create: (context) => MobileProvider(),
         ),
+        ChangeNotifierProvider<WebProvider>(
+          create: (context) => WebProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'DaDev',
+        theme: ThemeData(
+          fontFamily: FontType.sfProTextReguler,
+          brightness: Brightness.light,
+          scaffoldBackgroundColor: ColorPalete.lightScaffoldColor,
+          backgroundColor: ColorPalete.lightBackgroundColor,
+          dialogBackgroundColor: ColorPalete.lightScaffoldColor,
+          primaryColor: ColorPalete.lightPrimaryColor,
+          appBarTheme: AppBarTheme(
+            elevation: 3.0,
+            shadowColor: ColorPalete.lightSecondaryShadowColor,
+            color: ColorPalete.lightScaffoldColor,
+            iconTheme: IconThemeData(
+              color: Colors.black87,
+            ),
+            titleTextStyle: TextStyle(
+              fontFamily: FontType.sfProSemibold,
+              color: ColorPalete.lightPrimaryTextColor,
+              fontSize: 17.0,
+              letterSpacing: 0.1,
+            )
+          ),
+          tabBarTheme: TabBarTheme(
+            labelColor: Colors.purple.shade900,
+            unselectedLabelColor: ColorPalete.lightTertiaryTextColor,
+            labelStyle: TextStyle(
+              fontFamily: FontType.sfProSemibold,
+              fontSize: 15.0,
+            ),
+            unselectedLabelStyle: TextStyle(
+              fontFamily: FontType.sfProSemibold,
+              fontSize: 15.0,
+            ),
+            indicator: MaterialIndicator(
+              color: Colors.purple.shade900,
+              horizontalPadding: VariableApps.secondaryPaddingSize,
+              paintingStyle: PaintingStyle.fill,
+            ),
+          ),
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            backgroundColor: ColorPalete.lightBackgroundColor,
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: ColorPalete.lightPrimaryColor,
+            selectedLabelStyle: TextStyle(
+              fontSize: 11.0
+            ),
+            unselectedLabelStyle: TextStyle(
+              fontSize: 11.0
+            ),
+            elevation: 20.0,
+          ),
+          textTheme: TextTheme(
+            headline1: TextStyle(
+              color: ColorPalete.lightPrimaryTextColor,
+              letterSpacing: 0.15,
+              fontSize: 72.0
+            ),
+            headline2: TextStyle(
+              color: ColorPalete.lightPrimaryTextColor,
+              letterSpacing: 0.15,
+              fontSize: 40.0
+            ),
+            headline3: TextStyle(
+              color: ColorPalete.lightPrimaryTextColor,
+              letterSpacing: 0.15,
+              fontSize: 35.0
+            ),
+            headline4: TextStyle(
+              color: ColorPalete.lightPrimaryTextColor,
+              letterSpacing: 0.15,
+              fontSize: 30.0
+            ),
+            headline5: TextStyle(
+              color: ColorPalete.lightPrimaryTextColor,
+              letterSpacing: 0.15,
+            ),
+            headline6: TextStyle(
+              color: ColorPalete.lightPrimaryTextColor,
+              letterSpacing: 0.15,
+            ),
+            subtitle1: TextStyle(
+              color: ColorPalete.lightPrimaryTextColor,
+              letterSpacing: 0.15,
+              fontSize: 18.0,
+            ),
+            subtitle2: TextStyle(
+              color: ColorPalete.lightPrimaryTextColor,
+              letterSpacing: 0.15,
+              fontSize: 15.0,
+            ),
+            bodyText2: TextStyle(
+              letterSpacing: 0.15,
+              color: ColorPalete.lightPrimaryTextColor,
+              height: 1.45,
+              fontSize: 13.0,
+            ),
+            caption: TextStyle(
+              letterSpacing: 0.15,
+              height: 1.45, 
+              fontSize: 11.0        
+            ),
+            overline: TextStyle(
+              letterSpacing: 0.15,
+              color: ColorPalete.lightSecondaryTextColor,
+              height: 1.3,  
+              fontSize: 10.0          
+            ),
+            button: TextStyle(
+              fontFamily: FontType.sfProSemibold,
+              letterSpacing: 0.15,
+              fontSize: 15.0,
+              height: 1.45,            
+            ),
+          ),
+          iconTheme: IconThemeData(
+            color: ColorPalete.lightPrimaryIconColor,
+          ),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: WebHomePage(),
+        debugShowCheckedModeBanner: false,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
